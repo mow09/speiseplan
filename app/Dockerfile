@@ -18,7 +18,6 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-RUN pip freeze > requirements.txt
 #RUN django-admin startproject app
 
 # # AFTER BUILD COPY and START APP

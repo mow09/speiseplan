@@ -3,6 +3,7 @@
 import django.contrib.postgres.fields
 from django.db import migrations, models
 import django.db.models.deletion
+import django_jsonform.models.fields
 
 
 class Migration(migrations.Migration):
@@ -31,8 +32,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True,
                  primary_key=True, serialize=False, verbose_name='ID')),
-                ('times', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=42),
-                 help_text='Alle Tage mit ihren Zeiten [Di. 9:30 Uhr - 11:30 Uhr]:', size=None, verbose_name='Öffnunfgszeiten')),
+                ('times', django_jsonform.models.fields.ArrayField(base_field=models.CharField(max_length=42),
+                 help_text='Alle Tage mit ihren Zeiten [Di. 9:30 Uhr - 11:30 Uhr]:', size=10, verbose_name='Öffnunfgszeiten')),
                 ('place', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
                  to='content.place', verbose_name='Restaurant/Café')),
             ],
@@ -40,5 +41,21 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Öffnungszeit',
                 'verbose_name_plural': 'Öffnungszeiten',
             },
+        ),
+        migrations.AlterField(
+            model_name='news',
+            name='description',
+            field=models.TextField(max_length=1023, verbose_name='Mitteilung'),
+        ),
+        migrations.AlterField(
+            model_name='news',
+            name='title',
+            field=models.CharField(help_text='Überschrift für die Titleseite.',
+                                   max_length=255, verbose_name='Schlagzeile'),
+        ),
+        migrations.AlterField(
+            model_name='info',
+            name='description',
+            field=models.TextField(max_length=1023, verbose_name='Information'),
         ),
     ]

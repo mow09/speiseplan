@@ -19,6 +19,9 @@ INSTALLED_APPS = [
     'content.apps.ContentConfig',
     'doro.apps.DoroConfig',
     'food.apps.FoodConfig',
+    # added
+    # 'django_better_admin_arrayfield',
+    'django_jsonform',
     # general
     'django.contrib.admin',
     'django.contrib.auth',

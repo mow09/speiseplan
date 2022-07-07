@@ -10,27 +10,41 @@ from food.models import (
 
 
 class AllergyAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'description',)
+    search_fields = ['name']
 
 
 class AdditiveAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'description',)
+    search_fields = ['name']
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'description',)
+    search_fields = ['name']
 
 
 class RegionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'description',)
+    search_fields = ['name']
 
 
 class IngredientAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'description',)
+    search_fields = ['name']
 
 
 class MealAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['name']
+    list_display = ('name', 'price', 'bio', 'vegan', 'vegetarian', 'region',)
+    autocomplete_fields = ['category', 'ingredients', 'additives', 'allergies', 'region', ]
+
+    fieldsets = (
+        (None, {'fields': ('name',)}),
+        ('Details ', {'fields': ('description', 'category', 'price',)}),
+        ('Genaueres', {'fields': ('special_offer', 'bio', 'vegan', 'vegetarian',)}),
+        (None, {'fields': ('region', 'ingredients', 'additives', 'allergies',)}),
+    )
 
 
 admin.site.register(Allergy, AllergyAdmin)
