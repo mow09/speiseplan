@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="doro">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="{% static 'doro/css/webfont-robot.css' %}" rel="stylesheet">
+
+    <title>{% if title %}{{ title }} {% else %}Liberty NFT - Author Detail Page{% endif %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'doro/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'doro/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'doro/css/templatemo-liberty-market.css' %}">
+    <link rel="stylesheet" href="{% static 'doro/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'doro/css/animate.css' %}">
+    <link rel="stylesheet"href="{% static 'doro/css/swiper-bundle.min.css' %}"/>
+<!--
+
+TemplateMo 577 Liberty Market
+
+https://templatemo.com/tm-577-liberty-market
+
+-->
+  </head>
+  <body>
+      <!-- ***** Preloader Start ***** -->
+      <div id="js-preloader" class="js-preloader">
+        <div class="preloader-inner">
+          <span class="dot"></span>
+          <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+      <!-- ***** Preloader End ***** -->
+  {% include 'doro/partials/navbar.html' %}
+
+  {% block content %}{% endblock %}
+    <!-- Scripts -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'doro/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'doro/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'doro/js/isotope.min.js' %}"></script>
+    <script src="{% static 'doro/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'doro/js/wow.js' %}"></script>
+    <script src="{% static 'doro/js/tabs.js' %}"></script>
+    <script src="{% static 'doro/js/popup.js' %}"></script>
+    <script src="{% static 'doro/js/custom.js' %}"></script>
+  </body>
+
+</html>

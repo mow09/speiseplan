@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: doro_db_3
+    image: postgres:13-alpine
+    restart: always
+    volumes:
+      - doro_db:/var/lib/postgresql/data
+    # env_file:
+    #   - .env.db
+    environment:
+        - SECRET_KEY=supersecret_do_ro
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_SERVER=db
+        - POSTGRES_PORT=5432
+        - POSTGRES_DB=postgres
+
+  web:
+    container_name: doro_web
+    build:
+      context: ./app/.
+      dockerfile: Dockerfile
+    # command: daphne -b 0.0.0.0 -p 8080 app.asgi:application
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app/.:/usr/src/app/
+      # - ./app/.:/home/app/web/
+      # - static_volume:/usr/src/app/staticfiles
+      # - media_volume:/usr/src/app/mediafiles
+
+    ports:
+      - 8000:8000
+    # env_file:
+    #   - .env.app
+    environment:
+        - DJANGO_ALLOWED_HOSTS=*
+        - MODE=development
+        - DEBUG=1
+        # ---
+        - SECRET_KEY=supersecret_do_ro
+        # ---
+        - SQL_ENGINE=django.db.backends.postgresql
+        - SQL_DATABASE=postgres
+        - SQL_USER=postgres
+        - SQL_PASSWORD=postgres
+        - SQL_SERVER=db
+        - SQL_PORT=5432
+    depends_on:
+      - db
+
+  # nginx:
+  #   build:
+  #     context: ./nginx-dev
+  #     dockerfile: Dockerfile.dev.nginx
+  #   ports:
+  #     - 8888:80
+  #   depends_on:
+  #     - web
+  #   volumes:
+  #     - static_volume:/usr/src/app/staticfiles
+  #     - media_volume:/usr/src/app/mediafiles
+
+volumes:
+  doro_db:
+  static_volume:
+  media_volume:
