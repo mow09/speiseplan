@@ -37,10 +37,11 @@ class IngredientAdmin(admin.ModelAdmin):
 class MealAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name', 'show', 'price', 'bio', 'vegan', 'vegetarian', 'region',)
-    autocomplete_fields = ['category', 'ingredients', 'additives', 'allergies', 'region', ]
+    autocomplete_fields = ['category', 'ingredients', 'additives', 'allergies', 'region', 'place', ]
 
     fieldsets = (
         (None, {'fields': ('name', 'show')}),
+        # ('Details ', {'fields': ('description', 'category', 'place', 'price',)}),
         ('Details ', {'fields': ('description', 'category', 'price',)}),
         ('Genaueres', {'fields': ('special_offer', 'bio', 'vegan', 'vegetarian',)}),
         (None, {'fields': ('region', 'saisonal_month', 'ingredients', 'additives', 'allergies',)}),

@@ -1,8 +1,13 @@
 from django.views.generic import TemplateView
-from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
+
+from django_filters.views import FilterView
+
 from collections import namedtuple
 
-from content.models import Info, Opening, OwlImage
+from doro.filter import ProductFilter
+from content.models import Info, Opening, OwlImage, Intro
+from food.models import Meal, Category
 
 
 def layer3_context():
@@ -14,29 +19,29 @@ class BaseTemplateView(TemplateView):
     title = None
     urls_stuff = [
         # WARNING make sure you have them all in doro.urls contained!!
-        # {
-        #     'url': '/',
-        #     'name': 'Home',
-        # },
-        # {
-        #     'url': '/author/',
-        #     'name': 'Author',
-        # },
-        # {
-        #     'url': '/create/',
-        #     'name': 'Create',
-        # },
-        # {
-        #     'url': '/details/',
-        #     'name': 'Details',
-        # },
+        {
+            'url': '/',
+            'name': 'Home',
+        },
+        {
+            'url': '/author/',
+            'name': 'Author-',
+        },
+        {
+            'url': '/create/',
+            'name': 'Create-',
+        },
+        {
+            'url': '/details/',
+            'name': 'Details-',
+        },
         # {
         #     'url': '/explore/',
         #     'name': 'Explore',
         # },
         # IS right TODO
         {
-            'url': '#',
+            'url': '/produktpalette/',
             # 'name': 'Produkte',
             'name': 'Produktpalette',
         },
@@ -106,13 +111,30 @@ class BaseTemplateView(TemplateView):
                 self.urls_stuff[i]['active'] = False
         return self.urls_stuff
 
+    def get_current_url(self):
+        return self.request.get_full_path()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         host = self.request.get_host()
-        current_url = self.request.get_full_path()
+        current_url = self.get_current_url()
         context['title'] = self.title
         context['urls_stuff'] = self.mark_active_page(current_url)
-        context['current_year'] = datetime.now().year
+        return context
+
+
+class SubBaseTemplateView(BaseTemplateView):
+
+    class Meta:
+        abstract = True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_url = self.get_current_url()
+        try:
+            context['intro'] = Intro.get_intro(current_url)
+        except ObjectDoesNotExist as e:
+            context['intro'] = ''
         return context
 
 
@@ -129,17 +151,27 @@ class IndexView(BaseTemplateView):
         return context
 
 
-class AuthorView(BaseTemplateView):
+class AuthorView(SubBaseTemplateView):
     template_name = "doro/author.html"
 
 
-class CreateView(BaseTemplateView):
+class CreateView(SubBaseTemplateView):
     template_name = "doro/create.html"
 
 
-class DetailsView(BaseTemplateView):
+class DetailsView(SubBaseTemplateView):
     template_name = "doro/details.html"
 
 
-class ExploreView(BaseTemplateView):
+class ExploreView(SubBaseTemplateView):
     template_name = "doro/explore.html"
+
+
+class ProductsView(SubBaseTemplateView):
+    template_name = "doro/products.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = Meal.objects.filter(show=True)
+        context['categories'] = Category.objects.filter()
+        return context

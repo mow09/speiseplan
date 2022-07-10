@@ -1,0 +1,76 @@
+<div class="currently-market">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="section-heading">
+          <div class="line-dec"></div>
+          <h2>Alle <em>Produkte</em> nach Kategorien</h2>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="filters">
+          <ul>
+              <li data-filter="*"  class="active">Alles</li>
+              {% for category in categories %}
+                  <li data-filter=".{{ category.slug }}"  class="active">{{ category.name }}</li>
+              {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+        <div class="row grid">
+
+            {% for obj in object_list %}
+                  <div class="col-lg-6 currently-market-item all {{ obj.category.slug }}">
+                    <div class="item">
+                      <div class="left-image">
+                        <img src="{{ MEDIA_URL }}images/market-01.jpg" alt="" style="border-radius: 20px; min-width: 195px;">
+                      </div>
+                      <div class="right-content">
+                        <h4>{{ obj.name }}</h4>
+                        <span class="author">
+                          <!-- <img src="{#{ MEDIA_URL }#}images/author.jpg" alt="" style="max-width: 50px; border-radius: 50%;"> -->
+                          <h6>{{ obj.description }}<br>
+                              <!-- <a href="#">@libertyart</a> -->
+                          </h6>
+                        </span>
+                        <div class="line-dec"></div>
+                        <span class="bid">
+                          <i>{{ obj.category.name }}</i>
+                          <!-- <br><strong>TEXT</strong><br><em>($8,240.50)</em> -->
+                        </span>
+                        <span class="ends">
+                          {% for place in obj.place.all %}
+                          {{ place.name }}
+                          {% if not forloop.last %}
+                          <br>
+                          {% endif %}
+                          {% endfor %}
+                          <br><strong>€ {{ obj.price }}</strong>
+                          <!-- <br><em>(July 24th, 2022)</em> -->
+                        </span>
+                        <div class="text-button">
+                          <a href="#">ProductLink</a>
+                          special_offer
+                          ingredients
+                          additives
+                          allergies
+                          bio
+                          vegan
+                          vegetarian
+                          region
+                          saisonal_month
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+            {% endfor %}
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

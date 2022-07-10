@@ -126,7 +126,8 @@ Global Styles
 */
 html,
 body {
-  background: #CCC;
+  background: rgb(41,55,40);
+  /* background: #CCC; */
   font-family: 'Roboto', sans-serif;
 }
 
@@ -1353,7 +1354,8 @@ footer p a {
 }
 
 footer p a:hover {
-  color: #CCC;
+  /* color: #CCC; */
+  color: rgb(41,55,40);
   opacity: 0.75;
 }
 
@@ -1398,6 +1400,7 @@ Page Heading Style
   font-size: 50px;
   font-weight: 700;
   line-height: 66px;
+  margin-bottom: 12px;
   text-transform: uppercase;
   background-color: rgb(105,66,133);
 }

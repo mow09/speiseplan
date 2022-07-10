@@ -1,5 +1,5 @@
 from django.contrib import admin
-from content.models import Info, News, Place, Opening, OwlImage
+from content.models import Info, News, Place, Opening, OwlImage, Intro
 
 owl_text = [
     """
@@ -66,8 +66,18 @@ class OwlImageAdmin(admin.ModelAdmin):
     )
 
 
+class IntroAdmin(admin.ModelAdmin):
+    list_display = ('url_path', 'title',)
+
+    fieldsets = (
+        (None, {'fields': ('title', 'url_path')}),
+        ('Kontext', {'fields': ('header', 'description_list',)}),
+    )
+
+
 admin.site.register(Info, InfoAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Opening, OpeningAdmin)
 admin.site.register(OwlImage, OwlImageAdmin)
+admin.site.register(Intro, IntroAdmin)

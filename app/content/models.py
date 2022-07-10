@@ -101,9 +101,10 @@ class Info(models.Model):
 
 
 class Place(models.Model):
-    name = models.CharField('Schlagzeile', max_length=127)
+    name = models.CharField('Name', max_length=127)
     # location =
-    meals = models.ManyToManyField(Meal, blank=True)
+    meals = models.ManyToManyField(Meal, blank=True, related_name='place')
+    about = models.TextField('Über uns', blank=True)
     # img = models.ImageField(blank=True, null=True)
     # icon = models.ImageField(blank=True, null=True)
 
@@ -157,20 +158,42 @@ class Opening(models.Model):
 #         verbose_name = "Internetseite"
 #         verbose_name_plural = "Internetseiten"
 
+class Intro(models.Model):
+    header = models.CharField('Kopfzeile', blank=True, null=True, max_length=255)
+    title = models.CharField('Schlagzeile', max_length=255)
+    description_list = ArrayField(
+        models.TextField('Text', max_length=1023),
+        size=10,
+        verbose_name="Texte",
+        help_text="Jede Spalte der Liste wird in einen neuen Absatz im Intro geschreiben.",
+    )
+    url_path = models.CharField('URL Pfad', max_length=32)
+
+    class Meta:
+        verbose_name = "Into Text"
+        verbose_name_plural = "Intro Texte"
+
+    def __str__(self, force_insert=False, force_update=False, using=None):
+        return self.title + ' in ' + self.url_path
+
+    @classmethod
+    def get_intro(cls, url):
+        return cls.objects.get(url_path=url)
 
 # class Layer3(models.Model):
 #     """Fix layer over footer or somewhere."""
+
 
 class OwlImage(models.Model):
     name = models.CharField('Name', max_length=127, unique=True)
     img = models.ImageField('Bild', unique=True, upload_to="owl-images")
 
-    def __str__(self, force_insert=False, force_update=False, using=None):
-        return self.name
-
     class Meta:
         verbose_name = "Owl-Bild"
         verbose_name_plural = "Owl-Bilder"
+
+    def __str__(self, force_insert=False, force_update=False, using=None):
+        return self.name
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

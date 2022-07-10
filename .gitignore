@@ -1,8 +1,7 @@
 .DS_Store
 mediafiles/
+
 __pycache__/
 .env*
 .venv
 staticfiles/
-
-

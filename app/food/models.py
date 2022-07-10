@@ -1,5 +1,25 @@
-from django.db import models
+from django.db import models, IntegrityError, transaction
 from utils.fields import SelectArrayField
+from django.utils.text import slugify
+from django.utils.crypto import get_random_string
+
+# from content.models import Place
+
+
+def germanslugify(value):
+    replacements = [
+        (u'ä', u'ae'),
+        (u'ö', u'oe'),
+        (u'ü', u'ue'),
+        (u'ß', u'ss'),
+    ]
+    for (s, r) in replacements:
+        value = value.replace(s, r)
+    return slugify(value)
+
+
+def rand_chars(length=4):
+    return get_random_string(length=length)
 
 
 class Allergy(models.Model):
@@ -30,6 +50,7 @@ class Category(models.Model):
     """Meal Category."""
     name = models.CharField('Name', max_length=127, unique=True)
     description = models.TextField('Beschreibung', max_length=511, blank=True, null=True)
+    slug = models.CharField(max_length=142, blank=True, unique=True, editable=False)
 
     class Meta:
         verbose_name = "Essenskategorie"
@@ -37,6 +58,16 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = germanslugify(self.name)
+        while True:
+            try:
+                with transaction.atomic():
+                    return super(Category, self).save(*args, **kwargs)
+            except IntegrityError as e:
+                # except IntegrityError or transaction.TransactionManagementError as e:
+                self.slug = germanslugify(self.name+'-'+rand_chars())
 
 
 class Region(models.Model):
@@ -71,6 +102,7 @@ class Meal(models.Model):
     description = models.TextField('Beschreibung', max_length=1023)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     price = models.DecimalField('Preis in Euro', max_digits=5, decimal_places=2)
+    # place = models.ForeignKey('content.Place', on_delete=models.PROTECT)
 
     show = models.BooleanField('Ist vorhanden:', default=True,)
     special_offer = models.BooleanField(default=False)

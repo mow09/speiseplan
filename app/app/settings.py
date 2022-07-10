@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     # added
     # 'django_better_admin_arrayfield',
     'django_jsonform',
+    # 'django_filters',
     # general
     'django.contrib.admin',
     'django.contrib.auth',
