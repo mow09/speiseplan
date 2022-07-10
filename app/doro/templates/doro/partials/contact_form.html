@@ -1,0 +1,138 @@
+<div class="item-details-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-heading">
+          <div class="line-dec"></div>
+          <h2>Kontaktiere <em>uns</em> über das <em>Kontaktformular</em>.</h2>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+<!--
+#
+#
+ -->
+
+
+<div class="container">
+    <!-- <form id="contact"  action="{#% url 'users:contact_post' %#}" method="post"> -->
+    <form id="contact" method="post">
+        {% csrf_token %}
+      <div class="row">
+
+        <div class="col-lg-4">
+          <fieldset>
+            <label for="title">{{ form.first_name.label }}</label>
+            <div class="form-group">
+                {{ form.first_name }}
+            </div>
+            <!-- <input type="first_name" name="title" id="title" placeholder="Ex. Lyon King" autocomplete="on" required> -->
+          </fieldset>
+        </div>
+
+        <div class="col-lg-4">
+          <fieldset>
+            <label for="title">{{ form.last_name.label }}</label>
+            <div class="form-group">
+                {{ form.last_name }}
+            </div>
+            <!-- <input type="first_name" name="title" id="title" placeholder="Ex. Lyon King" autocomplete="on" required> -->
+          </fieldset>
+        </div>
+
+        <div class="col-lg-6">
+          <fieldset>
+            <label for="title">{{ form.e_mail.label }}</label>
+            <div class="form-group">
+                {{ form.e_mail }}
+            </div>
+            <!-- <input type="first_name" name="title" id="title" placeholder="Ex. Lyon King" autocomplete="on" required> -->
+          </fieldset>
+        </div>
+
+        <div class="col-lg-8">
+          <fieldset>
+            <label for="title">{{ form.message.label }}</label>
+            <div class="form-group">
+                {{ form.message }}
+            </div>
+            <!-- <input type="first_name" name="title" id="title" placeholder="Ex. Lyon King" autocomplete="on" required> -->
+          </fieldset>
+        </div>
+
+        <div class="col-lg-4">
+          <fieldset>
+            <label for="title">{{ form.place.label }}</label>
+            <div class="form-group">
+                {{ form.place }}
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-lg-6">
+          <fieldset>
+            <label for="title">Ich stimme der
+                <a href="#">Datenschutzerklärung</a> zu
+            </label>
+            <div class="checkbox">
+            <div class="form-group">
+                {{ form.privacy_place }}
+            </div>
+          </fieldset>
+        </div>
+    </div>
+
+        <div class="col-lg-6">
+          <fieldset>
+            <button type="submit" id="form-submit" class="orange-button">Submit Your Applying</button>
+          </fieldset>
+        </div>
+
+    </div>
+    </form>
+</div>
+
+
+</div>
+
+<!-- <div class="col-lg-12">
+  <div class="section-heading">
+    <div class="line-dec"></div>
+    <h2>This Is <em>Your Item</em> Preview.</h2>
+  </div>
+</div> -->
+
+<!-- <div class="col-lg-7">
+  <div class="left-image">
+    <img src="{{ MEDIA_URL }}images/create-yours.jpg" alt="" style="border-radius: 20px;">
+  </div>
+</div> -->
+<!-- <div class="col-lg-5 align-self-center">
+  <h4>Dolores Haze Westworld Eye</h4>
+  <span class="author">
+    <img src="{{ MEDIA_URL }}images/author-02.jpg" alt="" style="max-width: 50px; border-radius: 50%;">
+    <h6>Kataleya Smithee<br><a href="#">@kataleey</a></h6>
+  </span>
+  <p>Lorem ipsum dolor sit amet, consectetu dipiscingei elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  <div class="row">
+    <div class="col-3">
+      <span class="bid">
+        Current Bid<br><strong>0.06 ETH</strong><br><em>($8055,35)</em>
+      </span>
+    </div>
+    <div class="col-4">
+      <span class="owner">
+        Owner<br><strong>Alan Smithee</strong><br><em>(@asmithee)</em>
+      </span>
+    </div>
+    <div class="col-5">
+      <span class="ends">
+        Ends In<br><strong>3D 05H 20M 58S</strong><br><em>(January 22nd, 2021)</em>
+      </span>
+    </div>
+  </div>
+</div> -->
+</div>
+</div>
+</div>

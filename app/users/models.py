@@ -83,3 +83,20 @@ class DUser(AbstractBaseUser):
     def full_name(self):
         "Get full user name."
         return self.first_name + ' ' + self.last_name
+
+
+class Contact(models.Model):
+    created = models.DateTimeField('erstellt am', auto_now_add=True, editable=False)
+    first_name = models.CharField('Vorname', max_length=127)
+    last_name = models.CharField('Nachname', max_length=127)
+    e_mail = models.EmailField('E-Mail')
+    message = models.TextField('Nachricht', max_length=2055)
+    place = models.ForeignKey('content.Place', on_delete=models.PROTECT, verbose_name='Ort')
+
+    class Meta:
+        verbose_name = "Kontaktformular"
+        verbose_name_plural = "Kontaktformulare"
+
+    @property
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name

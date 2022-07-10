@@ -1846,7 +1846,7 @@ Details Page Style
   margin-right: 10px;
 }
 
-.item-details-page form input {
+.item-details-page form input,textarea,select {
   width: 100px;
   height: 46px;
   border: 1px solid rgb(105,66,133);
@@ -1858,8 +1858,9 @@ Details Page Style
   margin-right: 15px;
 }
 
-.item-details-page form input::placeholder {
-  color: #CCC;
+
+.item-details-page form input::placeholder,textarea::placeholder {
+  color: rgb(105,66,133);
 }
 
 .item-details-page button {
@@ -2130,7 +2131,7 @@ Create Page Style
   margin-bottom: 120px;
 }
 
-#contact input {
+#contact input,select {
   width: 100%;
   height: 46px;
   text-align: left;
@@ -2142,7 +2143,15 @@ Create Page Style
   color: #afafaf;
 }
 
-#contact input::placeholder {
+#contact textarea {
+  width: 100%;
+  height: 92px;
+  text-align: left;
+  padding: 0px 15px;
+  background-color: #282b2f;
+  border: 1px solid #404245;
+  margin-bottom: 30px;
+  font-weight: 500;
   color: #afafaf;
 }
 
@@ -2165,7 +2174,14 @@ Create Page Style
   text-align: center;
 }
 
-
+#contact a {
+    color: rgb(167,149,125);
+    font-weight: 500;
+    transition: all .3s;
+}
+#contact a:hover {
+    color: rgb(105,66,133);
+}
 
 
 /*

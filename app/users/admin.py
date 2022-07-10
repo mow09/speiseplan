@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from users.models import DUser
+from users.models import DUser, Contact
 
 
 class UserCreationForm(forms.ModelForm):
@@ -80,3 +80,10 @@ admin.site.register(DUser, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
+
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('place', 'full_name', 'created',)
+
+
+admin.site.register(Contact, ContactAdmin)

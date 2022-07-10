@@ -1,13 +1,16 @@
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 from django.core.exceptions import ObjectDoesNotExist
 
-# from django_filters.views import FilterView
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
 
 from collections import namedtuple
 
-# from doro.filter import ProductFilter
+from doro.forms import ContactForm
 from content.models import Info, Opening, OwlImage, Intro
 from food.models import Meal, Category
+from users.models import Contact
 
 
 def layer3_context():
@@ -91,7 +94,7 @@ class BaseTemplateView(TemplateView):
                     'name': 'Lageplan',
                 },
                 {
-                    'url': '#',
+                    'url': '/kontakt/',
                     # 'name': 'Kontakt',
                     'name': 'Kontaktformular',
                 },
@@ -167,6 +170,26 @@ class ExploreView(SubBaseTemplateView):
     template_name = "doro/explore.html"
 
 
+class ContactView(CreateView, FormView):
+    # class ContactView(SubBaseTemplateView, CreateView):
+    template_name = "doro/contact.html"
+    model = Contact
+
+    form_class = ContactForm
+    # success_url = reverse_lazy("user:overview")
+    success_url = reverse_lazy("doro:contact_post")
+    success_message = "Nachricht wurde übermittelt."
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ContactForm
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.success_url)
+
+
 class ProductsView(SubBaseTemplateView):
     template_name = "doro/products.html"
 
@@ -175,3 +198,7 @@ class ProductsView(SubBaseTemplateView):
         context['object_list'] = Meal.objects.filter(show=True)
         context['categories'] = Category.objects.filter()
         return context
+
+
+class SuccessView(SubBaseTemplateView):
+    template_name = "doro/contact_success.html"
