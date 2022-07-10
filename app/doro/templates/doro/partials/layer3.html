@@ -1,0 +1,40 @@
+<div class="create-nft">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="section-heading">
+          <div class="line-dec"></div>
+          <h2>Öffnungszeiten</h2>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <!-- <div class="main-button">
+          <a href="create.html">Create Your NFT Now</a>
+        </div> -->
+      </div>
+      {% for layer in openings %}
+      <div class="col-lg-4">
+
+        <div class="item
+         {% if not forloop.last %}first-item{% endif %}
+         ">
+
+          <!-- <div class="number">
+            <h6>1</h6>
+          </div> -->
+          <div class="icon">
+            <img src="{#{ MEDIA_URL }#}images/icon-02.png" alt="">
+          </div>
+          <h4>{{ layer.place.name }}</h4>
+          {% for each in layer.times %}
+          <p>{{ each }}</p>
+          <!-- <p>There are 5 different HTML pages included in this NFT <a href="https://templatemo.com/page/1" target="_blank" rel="nofollow">website template</a>. You can edit or modify any section on any page as you required.</p> -->
+          {% endfor %}
+        </div>
+
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>

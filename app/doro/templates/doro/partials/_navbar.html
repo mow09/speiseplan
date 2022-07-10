@@ -1,0 +1,65 @@
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+
+
+
+                      <ul class="nav-logo">
+                          <!-- <li> -->
+                          <a href="" class="logo">
+                          <img src="{{ MEDIA_URL }}logo/cafe.jpg" alt="">
+                          </a>
+                          <!-- </li> -->
+                          <!-- <li> -->
+                      </ul>
+                      <ul class="nav-logo">
+                              <a href="" class="logo">
+                                  <img src="{{ MEDIA_URL }}logo/bistro.jpg" alt="">
+                              </a>
+                      <!-- </li> -->
+                      </ul>
+
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+
+
+
+                      <ul class="nav">
+                          {% for each in urls_stuff %}
+
+                          {% if each.url %}
+                              <li><a href="{{ each.url }}"
+                                  {% if each.active %}class="active"{% endif %}
+                                  >{{each.name}}</a></li>
+                          {% else %}
+                              <li class="has-sub">
+                                  <a href="javascript:void(0)">{{ each.name }}</a>
+                                  <ul class="sub-menu">
+                                  {% for sub in each.sub %}
+                                          <li><a href="{{ sub.url }}">{{ sub.name }}</a></li>
+                                  {% endfor %}
+                                  </ul>
+                              </li>
+                          {% endif %}
+                          {% endfor %}
+
+                      </ul>
+
+
+
+
+
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>  <!-- COL  -->
+          </div>
+      </div>
+    </header>
+    <!-- ***** Header Area End ***** -->

@@ -10,7 +10,7 @@
 
     <link href="{% static 'doro/css/webfont-robot.css' %}" rel="stylesheet">
 
-    <title>{% if title %}{{ title }} {% else %}Liberty NFT - Author Detail Page{% endif %}</title>
+    <title>{% if title %}{{ title }} {% else %}DSS-Food{% endif %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'doro/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -43,9 +43,12 @@ https://templatemo.com/tm-577-liberty-market
         </div>
       </div>
       <!-- ***** Preloader End ***** -->
-  {% include 'doro/partials/navbar.html' %}
+
+  {% include 'doro/partials/_navbar.html' %}
 
   {% block content %}{% endblock %}
+
+  {% include 'doro/partials/_footer.html' %}
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'doro/vendor/jquery/jquery.min.js' %}"></script>

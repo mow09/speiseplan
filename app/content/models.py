@@ -1,7 +1,10 @@
-import datetime
+from django.dispatch.dispatcher import receiver
+from django.db.models.signals import pre_delete
+from datetime import date
 from django.db import models
 # from django.contrib.postgres.fields import ArrayField
 from django_jsonform.models.fields import ArrayField
+from PIL import Image
 
 # from django_better_admin_arrayfield.models.fields import ArrayField
 from utils.fields import SelectArrayField
@@ -16,9 +19,10 @@ class News(models.Model):
         'Mitteilung', max_length=1023)
     date = models.DateField(
         "Erstellt am:",
-        default=datetime.date.today,
+        default=date.today,
         help_text="Die Nachrichten werden anhand dieses Datums chronologisch sortiert."
     )
+    is_important = models.BooleanField('Hervorheben', default=False)
 
     class Meta:
         verbose_name = "Aktuell"
@@ -30,22 +34,23 @@ class News(models.Model):
 
 class Info(models.Model):
     """Info for Landing-Page/Index."""
+    header = models.CharField('Kopfzeile', blank=True, null=True, max_length=255)
     title = models.CharField('Schlagzeile', max_length=255)
     description = models.TextField(
         'Information', max_length=1023)
-    DAYS_CHOICES = (
-        ("Mo", "Montag"),
-        ("Di", "Dienstag"),
-        ("Mi", "Mittwoch"),
-        ("Do", "Donnerstag"),
-        ("Fr", "Freitag"),
-        ("Sa", "Samstag"),
-        ("So", "Sonntag"),
+    WEEKDAY_CHOICES = (
+        ("0", "Montag"),
+        ("1", "Dienstag"),
+        ("2", "Mittwoch"),
+        ("3", "Donnerstag"),
+        ("4", "Freitag"),
+        ("5", "Samstag"),
+        ("6", "Sonntag"),
     )
     days = SelectArrayField(
         models.CharField(
-            choices=DAYS_CHOICES,
-            max_length=15,
+            max_length=1,
+            choices=WEEKDAY_CHOICES,
             blank=True,
             null=True
         ),
@@ -73,11 +78,34 @@ class Info(models.Model):
     def __str__(self):
         return self.title
 
+    @classmethod
+    def get_index_info(cls):
+        # TODO HANDLE more prior
+        # - no date
+        # - just start_date
+        # -just end_date
+        prior_infos = cls.objects.filter(prior=True, end_date__gte=date.today())
+        if not prior_infos:
+            general_infos = cls.objects.filter(prior=False)
+
+            for each in general_infos:
+                print(each)
+
+            print(general_infos)
+            return general_infos.first()
+        elif len(prior_infos) == 1:
+            return prior_infos.first()
+        else:
+            # TODO handle most prior...
+            return prior_infos.first()
+
 
 class Place(models.Model):
     name = models.CharField('Schlagzeile', max_length=127)
     # location =
     meals = models.ManyToManyField(Meal, blank=True)
+    # img = models.ImageField(blank=True, null=True)
+    # icon = models.ImageField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Restaurant/Café"
@@ -128,3 +156,34 @@ class Opening(models.Model):
 #     class Meta:
 #         verbose_name = "Internetseite"
 #         verbose_name_plural = "Internetseiten"
+
+
+# class Layer3(models.Model):
+#     """Fix layer over footer or somewhere."""
+
+class OwlImage(models.Model):
+    name = models.CharField('Name', max_length=127, unique=True)
+    img = models.ImageField('Bild', unique=True, upload_to="owl-images")
+
+    def __str__(self, force_insert=False, force_update=False, using=None):
+        return self.name
+
+    class Meta:
+        verbose_name = "Owl-Bild"
+        verbose_name_plural = "Owl-Bilder"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.img.path)
+
+        if img.height > 500 or img.width > 500:
+            output_size = (500, 500)
+            img.thumbnail(output_size)
+            img.save(self.img.path)
+
+
+@receiver(pre_delete, sender=OwlImage)
+def owlimage_delete(sender, instance, **kwargs):
+    # Pass false so FileField doesn't save the model.
+    instance.img.delete(False)

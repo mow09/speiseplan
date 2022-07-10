@@ -29,7 +29,7 @@ class Additive(models.Model):
 class Category(models.Model):
     """Meal Category."""
     name = models.CharField('Name', max_length=127, unique=True)
-    description = models.TextField('Beschreibung', max_length=511)
+    description = models.TextField('Beschreibung', max_length=511, blank=True, null=True)
 
     class Meta:
         verbose_name = "Essenskategorie"
@@ -70,33 +70,37 @@ class Meal(models.Model):
     name = models.CharField('Name', max_length=127, unique=True)
     description = models.TextField('Beschreibung', max_length=1023)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    special_offer = models.BooleanField(default=False)
     price = models.DecimalField('Preis in Euro', max_digits=5, decimal_places=2)
+
+    show = models.BooleanField('Ist vorhanden:', default=True,)
+    special_offer = models.BooleanField(default=False)
+
     ingredients = models.ManyToManyField(Ingredient, blank=True, verbose_name='Zutaten')
     additives = models.ManyToManyField(Additive, blank=True, verbose_name='Zusatzstoffe')
     allergies = models.ManyToManyField(Allergy, blank=True, verbose_name='Allergiehinweise')
+
     bio = models.BooleanField(default=False)
     vegan = models.BooleanField(default=False, verbose_name='vegan')
     vegetarian = models.BooleanField(default=False, verbose_name='vegetarisch')
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, blank=True, null=True)
     MONTH_CHOICES = (
-        (1, 'Januar'),
-        (2, 'Februar'),
-        (3, 'März'),
-        (4, 'April'),
-        (5, 'Mai'),
-        (6, 'Juni'),
-        (7, 'Juli'),
-        (8, 'August'),
-        (9, 'September'),
-        (10, 'Oktober'),
-        (11, 'November'),
-        (12, 'Dezember'),
+        ('1', 'Januar'),
+        ('2', 'Februar'),
+        ('3', 'März'),
+        ('4', 'April'),
+        ('5', 'Mai'),
+        ('6', 'Juni'),
+        ('7', 'Juli'),
+        ('8', 'August'),
+        ('9', 'September'),
+        ('10', 'Oktober'),
+        ('11', 'November'),
+        ('12', 'Dezember'),
     )
     saisonal_month = SelectArrayField(
         models.CharField(
+            max_length=2,
             choices=MONTH_CHOICES,
-            max_length=15,
             blank=True,
             null=True
         ),

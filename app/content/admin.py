@@ -1,15 +1,31 @@
 from django.contrib import admin
-from content.models import Info, News, Place, Opening
+from content.models import Info, News, Place, Opening, OwlImage
+
+owl_text = [
+    """
+Diese Bilder werden auf der Startseite durchlaufen und angezeigt.
+Der Name muss einzigartig sein.
+""",
+    """
+Die Bilddatein müssen PNG-, JPEG- bzw. JPG-Datein sein.
+Der Name der Datei sollte dem Inhalt entsprechen und wird nicht gespeichert,
+wenn diese Datei bereits existiert.
+""", ]
 
 
 class InfoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'prior', 'days')
+    list_display = ('title', 'header', 'prior', 'get_days_display')
     fieldsets = (
-        (None, {'fields': ('title', 'description',)}),
+        (None, {'fields': ('header', 'title', 'description',)}),
         ('An welchem Tag soll diese Information auf der Startseite angezeigt werden?',
          {'fields': ('days',)}),
         ('Wichtige ausnahme Information', {'fields': ('prior', 'start_date', 'end_date',)}),
     )
+
+    @admin.display(description='Anzeigetage')
+    def get_days_display(self, obj):
+        days = [Info.WEEKDAY_CHOICES[int(i)][1] for i in obj.days]
+        return days
 
 
 class NewsAdmin(admin.ModelAdmin):
@@ -41,7 +57,17 @@ class OpeningAdmin(admin.ModelAdmin):
     )
 
 
+class OwlImageAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+
+    fieldsets = (
+        (owl_text[0], {'fields': ('name',)}),
+        (owl_text[1], {'fields': ('img',)}),
+    )
+
+
 admin.site.register(Info, InfoAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Opening, OpeningAdmin)
+admin.site.register(OwlImage, OwlImageAdmin)

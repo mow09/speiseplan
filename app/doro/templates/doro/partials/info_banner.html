@@ -1,0 +1,29 @@
+<!-- ***** Main Banner Area Start ***** -->
+<div class="main-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 align-self-center">
+
+        <div class="header-text">
+
+            {% if info.header %}<h6>{{ info.header }}</h6>{% endif %}
+            <h2>{{ info.title }}</h2>
+            <p>{{ info.description }}</p>
+            <!-- <div class="buttons">
+              <div class="border-button">
+                <a href="explore.html">Explore Top NFTs</a>
+              </div>
+              <div class="main-button">
+                <a href="https://youtube.com/templatemo" target="_blank">Watch Our Videos</a>
+              </div>
+            </div> -->
+
+      </div>
+      </div>
+      <div class="col-lg-5 offset-lg-1">
+          {% include 'doro/partials/owl_banner.html' %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ***** Main Banner Area End ***** -->
