@@ -1,11 +1,11 @@
 from django.views.generic import TemplateView
 from django.core.exceptions import ObjectDoesNotExist
 
-from django_filters.views import FilterView
+# from django_filters.views import FilterView
 
 from collections import namedtuple
 
-from doro.filter import ProductFilter
+# from doro.filter import ProductFilter
 from content.models import Info, Opening, OwlImage, Intro
 from food.models import Meal, Category
 
