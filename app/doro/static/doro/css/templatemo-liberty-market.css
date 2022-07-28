@@ -1273,6 +1273,19 @@ Currently Market Style
   margin-bottom: 25px;
 }
 
+.currently-market .item .right-content h4 a {
+  color: #CCC;
+  /* background-color: #CCC;
+  border: 1px solid #CCC;
+  color: rgb(105,66,133); */
+  /* font-size: 20px;
+  margin-bottom: 25px; */
+}
+
+.currently-market .item .right-content h4 a:hover {
+  background-color: rgb(105,66,133);
+}
+
 .currently-market .item .right-content span.author {
   display: flex;
   margin-bottom: 25px;
@@ -2015,6 +2028,11 @@ Author Page Style
 }
 
 .author-page .author h4 a {
+  font-size: 15px;
+  color: rgb(105,66,133);
+}
+
+.author-page .author h4 span {
   font-size: 15px;
   color: rgb(105,66,133);
 }

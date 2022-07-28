@@ -1,14 +1,16 @@
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from django.views.generic.detail import DetailView
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+from django.db.models import Q
 
 from collections import namedtuple
 
 from doro.forms import ContactForm
-from content.models import Info, Opening, OwlImage, Intro
+from content.models import Info, Opening, OwlImage, Intro, Place
 from food.models import Meal, Category
 from users.models import Contact
 
@@ -26,18 +28,18 @@ class BaseTemplateView(TemplateView):
             'url': '/',
             'name': 'Home',
         },
-        {
-            'url': '/author/',
-            'name': 'Author-',
-        },
-        {
-            'url': '/create/',
-            'name': 'Create-',
-        },
-        {
-            'url': '/details/',
-            'name': 'Details-',
-        },
+        # {
+        #     'url': '/author/',
+        #     'name': 'Author-',
+        # },
+        # {
+        #     'url': '/create/',
+        #     'name': 'Create-',
+        # },
+        # {
+        #     'url': '/details/',
+        #     'name': 'Details-',
+        # },
         # {
         #     'url': '/explore/',
         #     'name': 'Explore',
@@ -162,12 +164,39 @@ class CreateView(SubBaseTemplateView):
     template_name = "doro/create.html"
 
 
-class DetailsView(SubBaseTemplateView):
+# class DetailsView(DetailView):
+class DetailsView(DetailView, SubBaseTemplateView):
     template_name = "doro/details.html"
+    model = Meal
+    context_object_name = 'obj'
+
+    def get_context_data(self, **kwargs):
+        pk = self.kwargs['pk']
+        self.object = self.model.objects.get(pk=pk)
+        context = super().get_context_data(**kwargs)
+        context['openings'] = layer3_context()
+        return context
 
 
 class ExploreView(SubBaseTemplateView):
     template_name = "doro/explore.html"
+
+
+class PlaceView(SubBaseTemplateView, DetailView):
+    template_name = "doro/place.html"
+    model = Place
+    context_object_name = 'obj'
+
+    def get_context_data(self, **kwargs):
+        slug = self.kwargs['slug']
+        self.object = self.model.objects.get(slug=slug)
+        self.title = self.object.name
+        context = super().get_context_data(**kwargs)
+        context['openings'] = layer3_context()
+        context['meal_count'] = self.object.meals.all().count()
+        context['vegan_count'] = self.object.meals.filter(
+            Q(vegan=True) | Q(vegetarian=True)).count()
+        return context
 
 
 class ContactView(CreateView, FormView):

@@ -40,7 +40,7 @@ class MealAdmin(admin.ModelAdmin):
     autocomplete_fields = ['category', 'ingredients', 'additives', 'allergies', 'region', 'place', ]
 
     fieldsets = (
-        (None, {'fields': ('name', 'show')}),
+        (None, {'fields': ('name', 'show', 'img')}),
         # ('Details ', {'fields': ('description', 'category', 'place', 'price',)}),
         ('Details ', {'fields': ('description', 'category', 'price',)}),
         ('Genaueres', {'fields': ('special_offer', 'bio', 'vegan', 'vegetarian',)}),

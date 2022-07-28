@@ -42,7 +42,7 @@ class PlaceAdmin(admin.ModelAdmin):
     autocomplete_fields = ['meals', ]
 
     fieldsets = (
-        (None, {'fields': ('name',)}),
+        (None, {'fields': ('name', 'about')}),
         ('Alle Produkte an diesem Ort:', {'fields': ('meals',)}),
     )
 

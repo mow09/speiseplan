@@ -1,7 +1,9 @@
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_delete
 from datetime import date
-from django.db import models
+
+from django.db import models, IntegrityError, transaction
+
 # from django.contrib.postgres.fields import ArrayField
 from django_jsonform.models.fields import ArrayField
 from PIL import Image
@@ -9,6 +11,9 @@ from PIL import Image
 # from django_better_admin_arrayfield.models.fields import ArrayField
 from utils.fields import SelectArrayField
 from food.models import Meal
+
+
+from content.utils import germanslugify
 
 
 class News(models.Model):
@@ -105,6 +110,7 @@ class Place(models.Model):
     # location =
     meals = models.ManyToManyField(Meal, blank=True, related_name='place')
     about = models.TextField('Über uns', blank=True)
+    slug = models.CharField(max_length=142, blank=True, unique=True, editable=False)
     # img = models.ImageField(blank=True, null=True)
     # icon = models.ImageField(blank=True, null=True)
 
@@ -114,6 +120,16 @@ class Place(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = germanslugify(self.name)
+        while True:
+            try:
+                with transaction.atomic():
+                    return super(Place, self).save(*args, **kwargs)
+            except IntegrityError as e:
+                # except IntegrityError or transaction.TransactionManagementError as e:
+                self.slug = germanslugify(self.name+'-'+rand_chars())
 
 
 class Opening(models.Model):
@@ -186,7 +202,7 @@ class Intro(models.Model):
 
 class OwlImage(models.Model):
     name = models.CharField('Name', max_length=127, unique=True)
-    img = models.ImageField('Bild', unique=True, upload_to="owl-images")
+    img = models.ImageField('Bild', unique=True, upload_to='owl-images')
 
     class Meta:
         verbose_name = "Owl-Bild"

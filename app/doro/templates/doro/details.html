@@ -1,4 +1,5 @@
 {% extends "doro/base.html" %}
+{% load date_handling %}
 {% block content %}
 
 
@@ -10,45 +11,116 @@
         <div class="col-lg-12">
           <div class="section-heading">
             <div class="line-dec"></div>
-            <h2>View Details <em>For Item</em> Here.</h2>
+            <h2><em>Produkt</em>übersicht.</h2>
           </div>
         </div>
         <div class="col-lg-7">
           <div class="left-image">
-            <img src="{{ MEDIA_URL }}images/item-details-01.jpg" alt="" style="border-radius: 20px;">
+            <img src="{{ obj.img.url }}" alt="" style="border-radius: 20px;">
           </div>
         </div>
         <div class="col-lg-5 align-self-center">
-          <h4>Dolores Haze Westworld Eye</h4>
+          <h4>{{ obj.name }} {% if obj.special_offer %} - <em>Special offer!</em>{% endif %}</h4>
           <span class="author">
-            <img src="{{ MEDIA_URL }}images/author-02.jpg" alt="" style="max-width: 50px; border-radius: 50%;">
-            <h6>Liberty Artist<br><a href="#">@libertyart</a></h6>
+            <!-- <img src="{#{ MEDIA_URL }#}images/author-02.jpg" alt="" style="max-width: 50px; border-radius: 50%;"> -->
+            <!-- <h6>Liberty Artist<br><a href="#">@libertyart</a></h6> -->
+            <h6>
+                {% if obj.vegan %}<i style="color: green;" class="fa-solid fa-seedling"></i> <i style="color: green;" class="fa-solid fa-seedling"></i>{% endif %}
+                {% if obj.vegetarian %}<i style="color: green;" class="fa-solid fa-seedling"></i>{% endif %}
+            </h6>
           </span>
-          <p>Lorem ipsum dolor sit amet, consectetu dipiscingei elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          {% if obj.description %}
+          <h6>Beschreibung</h6>
+          <p>{{ obj.description }}</p>
+          {% endif %}
+          {% if obj.description_long %}
+          <p>{{ obj.description_long }}</p>
+          {% endif %}
+
+          {% if obj.bio %}
+          <p><em>VOLL BIO!</em></p>
+          {% endif %}
+
+
+          {% if obj.saisonal_month %}
+          <h6>Saison:</h6>
+          <p>
+          {% for month_number in obj.saisonal_month %}
+              {{ month_number|month_name|safe }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+          {% endif %}
+
+          {% if obj.region %}
+          <h6>Herkunf:</h6>
+          <p>
+              {{ obj.region }}
+            </p>
+          {% endif %}
+          {% if obj.ingredients.all %}
+          <h6>Zutaten:</h6>
+          <p>
+              {% for ingredient in obj.ingredients.all %}
+                  {{ ingredient }} (LINK !!!){% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </p>
+          {% endif %}
+
+          {% if obj.allergies.all %}
+          <h6>Allergien:</h6>
+          <p>
+              {% for allergy in obj.allergies.all %}
+                  {{ allergy }} (LINK !!!){% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </p>
+          {% endif %}
+
+          {% if obj.additives.all %}
+          <h6>Zusatzstoffe:</h6>
+          <p>
+              {% for additive in obj.additives.all %}
+                  {{ additive }} (LINK !!!){% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </p>
+          {% endif %}
+
           <div class="row">
-            <div class="col-3">
+            <!-- <div class="col-3">
               <span class="bid">
                 Current Bid<br><strong>6.06 ETH</strong><br><em>($8,025.50)</em>
               </span>
-            </div>
+            </div> -->
             <div class="col-4">
               <span class="owner">
-                Owner<br><strong>David Walker</strong><br><em>(@davidwalker)</em>
+                Erhältlich in:<br>
+                {% for place in obj.place.all %}
+                <strong>{{ place.name }} ({{ place.slug }})</strong>
+                {% if not forloop.last %}
+                <br>
+                {% endif %}
+                {% endfor %}
+                <!-- <br><em>(@davidwalker)</em> -->
+
               </span>
             </div>
             <div class="col-5">
               <span class="ends">
-                Ends In<br><strong>3D 05H 20M 58S</strong><br><em>(January 22nd, 2021)</em>
+                Preis:<br><strong>{{ obj.price }} €</strong>
+                <!-- <br>
+                <em>(January 22nd, 2021)</em> -->
               </span>
             </div>
           </div>
-          <form action="submit">
+          <!-- <form action="submit">
             <label for="quantity-text">Place Bid:</label>
             <input placeholder="1 ETH" class="quantity-text">
             <button type="submit" id="form-submit" class="main-button">Submit Now</button>
-          </form>
+          </form> -->
         </div>
-        <div class="col-lg-12">
+
+        <hr/>
+
+        <!-- <div class="col-lg-12">
           <div class="current-bid">
             <div class="row">
               <div class="col-lg-6">
@@ -67,7 +139,7 @@
               <div class="col-lg-4 col-md-6">
                 <div class="item">
                   <div class="left-img">
-                    <img src="{{ MEDIA_URL }}images/current-01.jpg" alt="">
+                    <img src="{#{ MEDIA_URL }#}images/current-01.jpg" alt="">
                   </div>
                   <div class="right-content">
                     <h4>David Walker</h4>
@@ -81,7 +153,7 @@
               <div class="col-lg-4 col-md-6">
                 <div class="item">
                   <div class="left-img">
-                    <img src="{{ MEDIA_URL }}images/current-02.jpg" alt="">
+                    <img src="{#{ MEDIA_URL }#}images/current-02.jpg" alt="">
                   </div>
                   <div class="right-content">
                     <h4>David Walker</h4>
@@ -95,7 +167,7 @@
               <div class="col-lg-4 col-md-6">
                 <div class="item">
                   <div class="left-img">
-                    <img src="{{ MEDIA_URL }}images/current-03.jpg" alt="">
+                    <img src="{#{ MEDIA_URL }#}images/current-03.jpg" alt="">
                   </div>
                   <div class="right-content">
                     <h4>David Walker</h4>
@@ -109,7 +181,7 @@
               <div class="col-lg-4 col-md-6">
                 <div class="item">
                   <div class="left-img">
-                    <img src="{{ MEDIA_URL }}images/current-02.jpg" alt="">
+                    <img src="{#{ MEDIA_URL }#}images/current-02.jpg" alt="">
                   </div>
                   <div class="right-content">
                     <h4>David Walker</h4>
@@ -123,7 +195,7 @@
               <div class="col-lg-4 col-md-6">
                 <div class="item">
                   <div class="left-img">
-                    <img src="{{ MEDIA_URL }}images/current-04.jpg" alt="">
+                    <img src="{#{ MEDIA_URL }#}images/current-04.jpg" alt="">
                   </div>
                   <div class="right-content">
                     <h4>David Walker</h4>
@@ -137,7 +209,7 @@
               <div class="col-lg-4 col-md-6">
                 <div class="item">
                   <div class="left-img">
-                    <img src="{{ MEDIA_URL }}images/current-01.jpg" alt="">
+                    <img src="{#{ MEDIA_URL }#}images/current-01.jpg" alt="">
                   </div>
                   <div class="right-content">
                     <h4>David Walker</h4>
@@ -150,7 +222,8 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+
       </div>
     </div>
   </div>

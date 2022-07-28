@@ -1,0 +1,181 @@
+{% extends "doro/base.html" %}
+{% block content %}
+
+
+{% include 'doro/partials/intro_banner.html' %}
+
+  <div class="author-page">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="author">
+            <!-- <img src="{#{ MEDIA_URL }#}images/single-author.jpg" alt="" style="border-radius: 50%; max-width: 170px;"> -->
+            <h4>{{ obj.name }} <br><span>{{ obj.about }}</span></h4>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="right-info">
+            <div class="row">
+              <div class="col-4">
+                <div class="info-item">
+                  <i class="fa fa-whiskey-glass"></i> <i class="fa-solid fa-utensils"></i>
+                  <h6>{{ meal_count }} <em>Produkte</em></h6>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="info-item">
+                  <i class="fa fa-seedling"></i>
+                  <h6>{{ vegan_count }} <em>Vegan / Vegetarisch</em></h6>
+                </div>
+              </div>
+              <!-- <div class="col-4">
+                <div class="info-item">
+                  <i class="fa fa-dollar"></i>
+                  <h6>1238 <em>Likes</em></h6>
+                </div>
+              </div> -->
+            </div>
+            <!-- <div class="row">
+              <div class="col-5">
+                <h5>559 Followers</h5>
+              </div>
+              <div class="col-7">
+                <div class="main-button">
+                  <a href="#">Follow @melanie32</a>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h2>Alle <em>Produkte</em> im {{ obj.name }}.</h2>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="item">
+            <div class="row">
+              <div class="col-lg-12">
+                <span class="author">
+                  <img src="{{ MEDIA_URL }}images/author.jpg" alt="" style="max-width: 50px; border-radius: 50%;">
+                </span>
+                <img src="{{ MEDIA_URL }}images/discover-03.jpg" alt="" style="border-radius: 20px;">
+                <h4>Mutant Ape Bored</h4>
+              </div>
+              <div class="col-lg-12">
+                <div class="line-dec"></div>
+                <div class="row">
+                  <div class="col-6">
+                    <span>Current Bid: <br> <strong>2.03 ETH</strong></span>
+                  </div>
+                  <div class="col-6">
+                    <span>Ends In: <br> <strong>25th Nov</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="main-button">
+                  <a href="details.html">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="item">
+            <div class="row">
+              <div class="col-lg-12">
+                <span class="author">
+                  <img src="{{ MEDIA_URL }}images/author-02.jpg" alt="" style="max-width: 50px; border-radius: 50%;">
+                </span>
+                <img src="{{ MEDIA_URL }}images/discover-06.jpg" alt="" style="border-radius: 20px;">
+                <h4>Mutant Ape Bored</h4>
+              </div>
+              <div class="col-lg-12">
+                <div class="line-dec"></div>
+                <div class="row">
+                  <div class="col-6">
+                    <span>Current Bid: <br> <strong>2.03 ETH</strong></span>
+                  </div>
+                  <div class="col-6">
+                    <span>Ends In: <br> <strong>25th Nov</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="main-button">
+                  <a href="details.html">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="item">
+            <div class="row">
+              <div class="col-lg-12">
+                <span class="author">
+                  <img src="{{ MEDIA_URL }}images/author.jpg" alt="" style="max-width: 50px; border-radius: 50%;">
+                </span>
+                <img src="{{ MEDIA_URL }}images/discover-05.jpg" alt="" style="border-radius: 20px;">
+                <h4>Mutant Ape Bored</h4>
+              </div>
+              <div class="col-lg-12">
+                <div class="line-dec"></div>
+                <div class="row">
+                  <div class="col-6">
+                    <span>Current Bid: <br> <strong>2.03 ETH</strong></span>
+                  </div>
+                  <div class="col-6">
+                    <span>Ends In: <br> <strong>25th Nov</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="main-button">
+                  <a href="details.html">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="item">
+            <div class="row">
+              <div class="col-lg-12">
+                <span class="author">
+                  <img src="{{ MEDIA_URL }}images/author-03.jpg" alt="" style="max-width: 50px; border-radius: 50%;">
+                </span>
+                <img src="{{ MEDIA_URL }}images/discover-04.jpg" alt="" style="border-radius: 20px;">
+                <h4>Mutant Ape Bored</h4>
+              </div>
+              <div class="col-lg-12">
+                <div class="line-dec"></div>
+                <div class="row">
+                  <div class="col-6">
+                    <span>Current Bid: <br> <strong>2.03 ETH</strong></span>
+                  </div>
+                  <div class="col-6">
+                    <span>Ends In: <br> <strong>25th Nov</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="main-button">
+                  <a href="details.html">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{% include 'doro/partials/layer3.html' %}
+{% endblock content %}

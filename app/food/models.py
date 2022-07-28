@@ -1,21 +1,13 @@
 from django.db import models, IntegrityError, transaction
 from utils.fields import SelectArrayField
-from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 
 # from content.models import Place
+from django.dispatch.dispatcher import receiver
+from django.db.models.signals import pre_delete
+from PIL import Image
 
-
-def germanslugify(value):
-    replacements = [
-        (u'ä', u'ae'),
-        (u'ö', u'oe'),
-        (u'ü', u'ue'),
-        (u'ß', u'ss'),
-    ]
-    for (s, r) in replacements:
-        value = value.replace(s, r)
-    return slugify(value)
+from content.utils import germanslugify
 
 
 def rand_chars(length=4):
@@ -98,11 +90,13 @@ class Ingredient(models.Model):
 
 
 class Meal(models.Model):
-    name = models.CharField('Name', max_length=127, unique=True)
-    description = models.TextField('Beschreibung', max_length=1023)
+    name = models.CharField('Name', max_length=63, unique=True)
+    description = models.TextField('Beschreibung', max_length=127)
+    description_long = models.TextField('Beschreibung', blank=True, max_length=1023)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     price = models.DecimalField('Preis in Euro', max_digits=5, decimal_places=2)
     # place = models.ForeignKey('content.Place', on_delete=models.PROTECT)
+    img = models.ImageField('Bild', upload_to='meal-images', default='meal-images/berries.jpg')
 
     show = models.BooleanField('Ist vorhanden:', default=True,)
     special_offer = models.BooleanField(default=False)
@@ -148,5 +142,19 @@ class Meal(models.Model):
     def __str__(self):
         return self.name
 
-    # def save():
-    # when vegan -> also vegetarian
+    def save(self, *args, **kwargs):
+        # when vegan -> also vegetarian
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.img.path)
+
+        if img.height > 500 or img.width > 500:
+            output_size = (500, 500)
+            img.thumbnail(output_size)
+            img.save(self.img.path)
+
+
+@receiver(pre_delete, sender=Meal)
+def owlimage_delete(sender, instance, **kwargs):
+    # Pass false so FileField doesn't save the model.
+    instance.img.delete(False)
